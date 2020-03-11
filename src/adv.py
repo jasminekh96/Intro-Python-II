@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -33,14 +34,53 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+# print(room['outside'].n_to)
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
 
+
+player = Player(input("What is your name? "), room['outside'])
+
+print(f"Hello, {player.name}.\n\n{player.current_room}")
+
 # Write a loop that:
 #
+
+
+while True:
+    print(player.current_room)
+    cmd = input("=>").lower()
+    if cmd in ["n", "s", "e", "w"]:
+        #Move to that room
+        if cmd == "n":
+            if player.current_room.n_to is not None:
+                player.current_room = player.current_room.n_to
+            else: 
+                print("You hit a wall!")
+        if cmd == "s":
+            if player.current_room.s_to is not None:
+                player.current_room = player.current_room.s_to
+            else: 
+                print("You hit a wall!")
+        if cmd == "e":
+            if player.current_room.e_to is not None:
+                player.current_room = player.current_room.e_to
+            else: 
+                print("You hit a wall!")
+        if cmd == "w":
+            if player.current_room.w_to is not None:
+                player.current_room = player.current_room.w_to
+            else: 
+                print("You hit a wall!")
+    elif cmd == "q":
+        exit()
+    else:
+        print("I did not understand that command?")
+
+
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
