@@ -1,10 +1,12 @@
 from room import Room
+from player import Player
+from item import Item
 
 # Declare all the rooms
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                    "North of you, the cave mount beckons"),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -33,14 +35,75 @@ room['narrow'].w_to = room['foyer']
 room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
+
+stone = Item("stone", "healing")
+sword = Item("sword", "fight off enemies")
+pan = Item("pan", "cooking hearty meals")
+
+room['foyer'].item.append(stone)
+room['treasure'].item.append(sword)
+room['narrow'].item.append(pan)
+
+# print(room['outside'].n_to)
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
 
+
+player = Player(input("What is your name? "), room['outside'], None)
+
+print(f"Hello, {player.name}.\n\n{player.current_room}")
+
+#Maybe do not need:
+# player_item = player.item
+
+# current_room_item = player.current_room.item
+# print('Your LifeSavers: ', player.item)
 # Write a loop that:
 #
+
+# playerInput = ''
+# while playerInput != 'Q':
+#     print(
+#         'Choose your next move: [N] North [S] South [E] East [W] West [Q] Quit')
+#     playerInput = input(">>").upper()
+
+
+while True:
+    print(player.current_room)
+    cmd = input("=>").lower()
+    if cmd in ["n", "s", "e", "w"]:
+        #Move to that room
+        if cmd == "n":
+            if player.current_room.n_to is not None:
+                player.current_room = player.current_room.n_to
+            else: 
+                print("You hit a wall!")
+        if cmd == "s":
+            if player.current_room.s_to is not None:
+                player.current_room = player.current_room.s_to
+            else: 
+                print("You hit a wall!")
+        if cmd == "e":
+            if player.current_room.e_to is not None:
+                player.current_room = player.current_room.e_to
+            else: 
+                print("You hit a wall!")
+        if cmd == "w":
+            if player.current_room.w_to is not None:
+                player.current_room = player.current_room.w_to
+            else: 
+                print("You hit a wall!")
+        #     else:
+        # print("I did not understand that command?")
+    elif cmd == "q":
+        exit()
+    # elif cur_room == 'GET':
+    #     player.inventory.append(item)
+    #     print(f'You just picked up a {item}')
+
 # * Prints the current room name
 # * Prints the current description (the textwrap module might be useful here).
 # * Waits for user input and decides what to do.
